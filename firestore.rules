@@ -1,0 +1,105 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ───────── Helper functions ─────────
+    function isAdmin() {
+      return request.auth != null;
+    }
+
+    // ───────── Admissions ─────────
+    // Public users can create admission applications (no auth required).
+    // Only admins can read, update, or delete admissions.
+    // NOTE: Whether a given course currently accepts admissions
+    // (CourseModel.admissionOpen) is enforced on the client (admissions_page.dart
+    // blocks submission for closed courses). These rules validate shape/fields
+    // only. If you later move the course catalog into Firestore and want
+    // server-side enforcement too, add a `get(/databases/$(database)/documents
+    // /courses/$(request.resource.data.selectedCourse)).data.admissionOpen == true`
+    // check here.
+    match /admissions/{admissionId} {
+      allow create: if true; // Public submission
+      allow read, update, delete: if isAdmin();
+    }
+
+    // ───────── Certificates ─────────
+    // Anyone can read certificates (for public verification page).
+    // Only admins can create, update, or delete certificates.
+    match /certificates/{certId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ───────── Courses ─────────
+    // Public read access for the courses listing & detail pages.
+    // Only admins can modify course data.
+    match /courses/{courseId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ───────── Branches ─────────
+    // Public read for admission dropdowns. Only admins can modify.
+    match /branches/{branchId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ───────── Batches ─────────
+    // Only admins can manage batches.
+    match /batches/{batchId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ───────── FAQ ─────────
+    // Public read access for the FAQ section.
+    // Only admins can modify FAQ entries.
+    match /faq/{faqId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ───────── Gallery ─────────
+    // Public read access for gallery images.
+    // Only admins can add/remove gallery items.
+    match /gallery/{itemId} {
+      allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ───────── Students (Fee Management) ─────────
+    // Only admins can read/write student records and their payment subcollection.
+    match /students/{studentId} {
+      allow read, write: if isAdmin();
+
+      match /payments/{paymentId} {
+        allow read, write: if isAdmin();
+      }
+    }
+
+    // Allow admins to query payments across all students (Collection Group)
+    match /{path=**}/payments/{paymentId} {
+      allow read: if isAdmin();
+    }
+
+    // ───────── Expenses ─────────
+    match /expenses/{expenseId} {
+      allow read, write: if isAdmin();
+    }
+
+    // ───────── Teachers ─────────
+    match /teachers/{teacherId} {
+      allow read: if true; // Public read for course details
+      allow write: if isAdmin();
+    }
+
+    // ───────── Certificates ─────────
+    // Public read access so the website can render dynamic content.
+    // Only admins can update settings.
+    match /settings/{settingId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}

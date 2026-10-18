@@ -1,0 +1,23 @@
+# Task Management
+
+- [ ] Update Data Models
+    - [ ] Create `BranchModel`
+    - [ ] Create `BatchModel`
+    - [ ] Update `AdmissionModel`
+    - [ ] Update `StudentModel`
+- [ ] Update Services
+    - [ ] Create `BranchService`
+    - [ ] Update `FirestoreService`
+- [ ] Admin UI Updates
+    - [ ] Create Branch Management Page
+    - [ ] Update Dashboard with Branch filtering
+    - [ ] Add sidebar links
+- [ ] Public UI Updates
+    - [ ] Update Home Screen constants
+    - [ ] Update Admission Form
+- [ ] Data Migration/Seeding
+    - [ ] Seed "Charbagh" and "Manglor" branches
+    - [ ] Update existing records with default branchId
+- [ ] Verification
+    - [ ] Test Admission flow
+    - [ ] Test Admin filters

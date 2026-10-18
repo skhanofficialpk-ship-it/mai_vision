@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "848343796661",
+    "project_id": "mai-vision",
+    "storage_bucket": "mai-vision.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848343796661:android:0c6096ca0a97ad308ca7fc",
+        "android_client_info": {
+          "package_name": "com.maivision.academy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7rpHk7zm30GLTSDa7xlpgJYbXhBHJRLk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
